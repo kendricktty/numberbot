@@ -1,0 +1,6 @@
+bot:
+  USER: ${USER}
+  TOKEN: ${TOKEN}
+  AUTHORISED_USER: ${AUTHORISED_USER}
+server:
+  PORT: 5000
