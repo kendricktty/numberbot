@@ -47,9 +47,10 @@ public class DefaultMessageProcessor {
         if (inputList.length != 2) {
             throw new InvalidInputException("Invalid input. Enter /r or /p, followed by a space, and then a number.");
         }
+        System.out.println(inputList[1]);
         try {
             return Integer.parseInt(inputList[1]);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             throw new InvalidInputException("Invalid input. Enter /r or /p, followed by a space, and then a number.");
         }
     }
