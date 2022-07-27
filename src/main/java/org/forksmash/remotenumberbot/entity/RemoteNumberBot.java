@@ -1,5 +1,6 @@
 package org.forksmash.remotenumberbot.entity;
 
+import org.forksmash.remotenumberbot.utility.validator.AuthorisedUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,6 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
         this.USERNAME = USERNAME;
         this.TOKEN = TOKEN;
         this.AUTHORISED_USER = AUTHORISED_USER;
-
     }
 
     @Override
@@ -36,17 +36,14 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        SendMessage message = null;
+        SendMessage message = new SendMessage();
 
-
-        logger.info("Chat ID:" + update.getMessage().getChatId().toString());
-        if (!(update.getMessage().getChatId().toString().equals(AUTHORISED_USER))) {
-            message = new SendMessage();
-            logger.info("DENIED DENIED DENIED");
+        AuthorisedUserValidator validator = new AuthorisedUserValidator();
+        if (!(validator.validate(update.getMessage().getChatId().toString(), AUTHORISED_USER))) {
             message.setText("You are not authorised to use this bot.");
+
         } else if (update.hasMessage() && update.getMessage().hasText()){
             String receivedMessage = update.getMessage().getText();
-            message = new SendMessage();
             message.setText(receivedMessage);
         }
         message.setChatId(update.getMessage().getChatId());
