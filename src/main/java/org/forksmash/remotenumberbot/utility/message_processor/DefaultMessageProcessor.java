@@ -64,6 +64,5 @@ public class DefaultMessageProcessor {
         if (isZero) {
             return 0;
         }
-       return isPlus ? Integer.parseInt(inputString.substring(inputString.indexOf("+"))) : -(Integer.parseInt(inputString.substring(inputString.indexOf("-"))));
     }
 }

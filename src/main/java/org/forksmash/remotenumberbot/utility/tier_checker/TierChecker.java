@@ -14,6 +14,11 @@ public class TierChecker {
         }
 
         int tierIndex = (int) Math.log10(generatedNumber);
+        if (tierIndex < 3) {
+            tierIndex = 0;
+        } else {
+            tierIndex -= 3;
+        }
         return tierIndex > tiers.length - 2 ? tiers[tiers.length - 2] : tiers[tierIndex];
     }
 
