@@ -11,10 +11,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
 public class RemoteNumberBot extends TelegramLongPollingBot {
-    private String USERNAME;
-    private String TOKEN;
-    private String AUTHORISED_USER;
-    private static final Logger logger = LoggerFactory.getLogger(RemoteNumberBot.class);
+    private final String USERNAME;
+    private final String TOKEN;
+    private final String AUTHORISED_USER;
+//    private static final Logger logger = LoggerFactory.getLogger(RemoteNumberBot.class);
 
     public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN, @Value("${bot.AUTHORISED_USER") String AUTHORISED_USER) {
         this.USERNAME = USERNAME;
