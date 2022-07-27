@@ -12,6 +12,9 @@ public class TierChecker {
 
     private char checkTier() {
         if (isRandomNumber) {
+            if (generatedNumber > tiers.length - 1) {
+                generatedNumber = tiers.length - 2;
+            }
             return tiers[(int) Math.log10(generatedNumber)];
         } else if (generatedNumber == 1024 || generatedNumber == 2048) {
             return tiers[tiers.length - 1];
