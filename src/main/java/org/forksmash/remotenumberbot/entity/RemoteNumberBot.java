@@ -41,7 +41,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
             String receivedMessage = update.getMessage().getText();
             message.setText(receivedMessage);
         }
-
+        message.setChatId(update.getMessage().getChatId());
         try {
             execute(message);
         } catch (TelegramApiException e) {
