@@ -34,7 +34,7 @@ public class DefaultMessageProcessor {
                 Power2Generator generator = new Power2Generator();
                 int generatedNum = generator.generate(numToProcess);
 
-//                generatedNum += addOrSubtract(generatedNum, inboundMessage);
+                generatedNum += addOrSubtract(generatedNum, inboundMessage);
                 TierChecker tierChecker = new TierChecker(generatedNum);
                 return tierChecker.successMessage();
             }
