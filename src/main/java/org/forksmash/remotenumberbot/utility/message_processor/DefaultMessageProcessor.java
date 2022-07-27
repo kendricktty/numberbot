@@ -64,5 +64,7 @@ public class DefaultMessageProcessor {
         if (isZero) {
             return 0;
         }
+        String numberToAddOrSubtract = isPlus ? inputString.substring(inputString.indexOf('+')) : inputString.substring(inputString.indexOf('-'));
+        return Integer.parseInt(numberToAddOrSubtract);
     }
 }
