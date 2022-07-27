@@ -38,7 +38,10 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        System.out.println(AUTHORISED_USER);
+
         SendMessage message = null;
+
 
 //        logger.info("Chat ID:" + update.getMessage().getChatId().toString());
         if (!(update.getMessage().getChatId().toString().equals(AUTHORISED_USER))) {
