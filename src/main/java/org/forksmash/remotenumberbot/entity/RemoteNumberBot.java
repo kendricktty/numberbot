@@ -20,6 +20,10 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
         this.USERNAME = USERNAME;
         this.TOKEN = TOKEN;
         this.AUTHORISED_USER = AUTHORISED_USER;
+
+        System.out.println("Username: " + this.USERNAME);
+        System.out.println("Token: " + this.TOKEN);
+        System.out.println("Authorised user: " + this.AUTHORISED_USER);
     }
 
     @Override
