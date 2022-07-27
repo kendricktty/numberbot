@@ -1,5 +1,5 @@
 bot:
-  USER: ${USER}
+  USERNAME: ${USER}
   TOKEN: ${TOKEN}
   AUTHORISED_USER: ${AUTHORISED_USER}
 server:
