@@ -2,7 +2,7 @@ package org.forksmash.remotenumberbot.utility.tier_checker;
 
 public class TierChecker {
     private final char[] tiers = {'D', 'C', 'B', 'A', 'R'};
-    private final int generatedNumber;
+    private int generatedNumber;
     private final boolean isRandomNumber;
 
     public TierChecker(int generatedNumber, boolean isRandomNumber) {
