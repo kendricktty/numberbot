@@ -43,7 +43,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
         if (!(update.getMessage().getChatId().toString().equals(AUTHORISED_USER))) {
 //            logger.info("DENIED DENIED DENIED");
             message.setText("You are not authorised to use this bot.");
-        } else {
+        } else if (update.hasMessage() && update.getMessage().hasText()){
             String receivedMessage = update.getMessage().getText();
             message.setText(receivedMessage);
         }
