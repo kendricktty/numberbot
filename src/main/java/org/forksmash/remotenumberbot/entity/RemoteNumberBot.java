@@ -16,7 +16,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     private final String AUTHORISED_USER;
 //    private static final Logger logger = LoggerFactory.getLogger(RemoteNumberBot.class);
 
-    public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN, @Value("${bot.AUTHORISED_USER") String AUTHORISED_USER) {
+    public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN, @Value("${bot.AUTHORISED_USER}") String AUTHORISED_USER) {
         this.USERNAME = USERNAME;
         this.TOKEN = TOKEN;
         this.AUTHORISED_USER = AUTHORISED_USER;
