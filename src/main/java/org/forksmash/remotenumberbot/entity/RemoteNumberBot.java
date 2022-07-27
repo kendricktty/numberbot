@@ -14,16 +14,13 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     private final String USERNAME;
     private final String TOKEN;
     private final String AUTHORISED_USER;
-//    private static final Logger logger = LoggerFactory.getLogger(RemoteNumberBot.class);
+    private static final Logger logger = LoggerFactory.getLogger(RemoteNumberBot.class);
 
     public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN, @Value("${bot.AUTHORISED_USER}") String AUTHORISED_USER) {
         this.USERNAME = USERNAME;
         this.TOKEN = TOKEN;
         this.AUTHORISED_USER = AUTHORISED_USER;
 
-        System.out.println("Username: " + this.USERNAME);
-        System.out.println("Token: " + this.TOKEN);
-        System.out.println("Authorised user: " + this.AUTHORISED_USER);
     }
 
     @Override
@@ -42,10 +39,10 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
         SendMessage message = null;
 
 
-//        logger.info("Chat ID:" + update.getMessage().getChatId().toString());
+        logger.info("Chat ID:" + update.getMessage().getChatId().toString());
         if (!(update.getMessage().getChatId().toString().equals(AUTHORISED_USER))) {
             message = new SendMessage();
-//            logger.info("DENIED DENIED DENIED");
+            logger.info("DENIED DENIED DENIED");
             message.setText("You are not authorised to use this bot.");
         } else if (update.hasMessage() && update.getMessage().hasText()){
             String receivedMessage = update.getMessage().getText();
@@ -56,9 +53,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-//            logger.error(e.getMessage());
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        System.out.println(AUTHORISED_USER);
     }
 }
