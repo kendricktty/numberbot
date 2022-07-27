@@ -26,14 +26,16 @@ public class DefaultMessageProcessor {
                 RandomNumberGenerator generator = new RandomNumberGenerator();
                 int generatedNum = generator.generate(numToProcess);
 
-                TierChecker tierChecker = new TierChecker(generatedNum, true);
+                TierChecker tierChecker = new TierChecker(generatedNum);
                 return tierChecker.successMessage();
             } else if (inboundMessage.startsWith("/p ")) {
                 int numToProcess = sanitiseInput(inboundMessage);
+
                 Power2Generator generator = new Power2Generator();
                 int generatedNum = generator.generate(numToProcess);
-                generatedNum += addOrSubtract(generatedNum, inboundMessage);
-                TierChecker tierChecker = new TierChecker(generatedNum, false);
+
+//                generatedNum += addOrSubtract(generatedNum, inboundMessage);
+                TierChecker tierChecker = new TierChecker(generatedNum);
                 return tierChecker.successMessage();
             }
         } catch (InvalidInputException e) {
