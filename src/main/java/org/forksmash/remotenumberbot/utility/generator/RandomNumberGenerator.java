@@ -10,7 +10,7 @@ public class RandomNumberGenerator extends Generator {
         for (int i = 1; i <= pow; i++) {
             random = new Random();
             int randomNumber = random.nextInt(10);
-            result += ((int) Math.pow(10, i) + randomNumber);
+            result += ((int) Math.pow(10, i) * randomNumber);
         }
         return result;
     }
