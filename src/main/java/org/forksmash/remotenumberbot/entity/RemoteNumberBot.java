@@ -1,5 +1,6 @@
 package org.forksmash.remotenumberbot.entity;
 
+import org.forksmash.remotenumberbot.utility.message_processor.DefaultMessageProcessor;
 import org.forksmash.remotenumberbot.utility.validator.AuthorisedUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,8 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
 
         } else if (update.hasMessage() && update.getMessage().hasText()){
             String receivedMessage = update.getMessage().getText();
-            message.setText(receivedMessage);
+            DefaultMessageProcessor processor = new DefaultMessageProcessor();
+            message.setText(processor.processMessage());
         }
         message.setChatId(update.getMessage().getChatId());
         try {
