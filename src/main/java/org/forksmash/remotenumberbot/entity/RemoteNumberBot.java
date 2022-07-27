@@ -45,7 +45,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
 
         } else if (update.hasMessage() && update.getMessage().hasText()){
             String receivedMessage = update.getMessage().getText();
-            DefaultMessageProcessor processor = new DefaultMessageProcessor();
+            DefaultMessageProcessor processor = new DefaultMessageProcessor(receivedMessage);
             message.setText(processor.processMessage());
         }
         message.setChatId(update.getMessage().getChatId());
