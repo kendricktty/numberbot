@@ -38,7 +38,6 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(AUTHORISED_USER);
 
         SendMessage message = null;
 
@@ -60,5 +59,6 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
 //            logger.error(e.getMessage());
             e.printStackTrace();
         }
+        System.out.println(AUTHORISED_USER);
     }
 }
