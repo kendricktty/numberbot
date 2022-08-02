@@ -1,6 +1,5 @@
 package org.forksmash.remotenumberbot.utility.tier_checker;
 
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Component;
 
 @Component
