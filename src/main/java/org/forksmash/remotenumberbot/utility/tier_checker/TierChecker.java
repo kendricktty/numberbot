@@ -22,7 +22,7 @@ public class TierChecker {
     }
 
     public String successMessage(int generatedNumber) {
-        String returnValue = "The number returned is " + generatedNumber + "\nIt is suitable for use with a Category " + checkTier() + " account.";
+        String returnValue = "The number returned is " + generatedNumber + "\nIt is suitable for use with a Category " + checkTier(generatedNumber) + " account.";
         return returnValue;
     }
 }
