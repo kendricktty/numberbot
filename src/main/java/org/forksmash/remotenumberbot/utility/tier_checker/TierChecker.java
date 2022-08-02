@@ -6,12 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TierChecker {
     private final char[] tiers = {'D', 'C', 'B', 'A', 'R'};
-    private int generatedNumber;
-    public void setGeneratedNumber(int generatedNumber) {
-        this.generatedNumber = generatedNumber;
-    }
 
-    private char checkTier() {
+    private char checkTier(int generatedNumber) {
         if (generatedNumber == 1024 || generatedNumber == 2048) {
             return tiers[tiers.length - 1];
         }
@@ -25,7 +21,7 @@ public class TierChecker {
         return tierIndex > tiers.length - 2 ? tiers[tiers.length - 2] : tiers[tierIndex];
     }
 
-    public String successMessage() {
+    public String successMessage(int generatedNumber) {
         String returnValue = "The number returned is " + generatedNumber + "\nIt is suitable for use with a Category " + checkTier() + " account.";
         return returnValue;
     }

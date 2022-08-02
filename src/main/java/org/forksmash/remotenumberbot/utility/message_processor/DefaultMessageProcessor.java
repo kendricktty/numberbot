@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DefaultMessageProcessor {
-
-    private String inboundMessage;
     private final HelpMenu helpMenu;
 
     private final StartMenu startMenu;
@@ -30,15 +28,8 @@ public class DefaultMessageProcessor {
         this.tierChecker = tierChecker;
     }
 
-    public String getInboundMessage() {
-        return inboundMessage;
-    }
-
-    public void setInboundMessage(String inboundMessage) {
-        this.inboundMessage = inboundMessage;
-    }
     @Autowired
-    public String processMessage() {
+    public String processMessage(String inboundMessage) {
         Generator generator = null;
         String defaultMessage = "";
         try {
@@ -56,7 +47,8 @@ public class DefaultMessageProcessor {
 
             int numToProcess = sanitiseInput(inboundMessage);
             int generatedNum = generator.generate(numToProcess);
-            return tierChecker.successMessage();
+
+            return tierChecker.successMessage(generatedNum);
         } catch (InvalidInputException e) {
             defaultMessage += e.getMessage() + "\n\n";
         }
@@ -64,7 +56,7 @@ public class DefaultMessageProcessor {
     }
 
     public int sanitiseInput(String input) throws InvalidInputException {
-        String[] inputList = inboundMessage.split(" ");
+        String[] inputList = input.split(" ");
         if (inputList.length != 2) {
             throw new InvalidInputException("Invalid input. Enter /r or /p, followed by a space, and then a number.");
         }
