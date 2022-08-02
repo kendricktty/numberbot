@@ -28,7 +28,6 @@ public class DefaultMessageProcessor {
         this.tierChecker = tierChecker;
     }
 
-    @Autowired
     public String processMessage(String inboundMessage) {
         Generator generator = null;
         String defaultMessage = "";
