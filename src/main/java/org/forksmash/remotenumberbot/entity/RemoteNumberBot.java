@@ -17,17 +17,17 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     private final String USERNAME;
     private final String TOKEN;
     private final String AUTHORISED_USER;
-    private final SendMessage message;
+//    private final SendMessage message;
     private final AuthorisedUserValidator validator;
     private final DefaultMessageProcessor processor;
     private static final Logger logger = LoggerFactory.getLogger(RemoteNumberBot.class);
 
     @Autowired
-    public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN, @Value("${bot.AUTHORISED_USER}") String AUTHORISED_USER, SendMessage message, AuthorisedUserValidator validator, DefaultMessageProcessor processor) {
+    public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN, @Value("${bot.AUTHORISED_USER}") String AUTHORISED_USER, /* SendMessage message,*/ AuthorisedUserValidator validator, DefaultMessageProcessor processor) {
         this.USERNAME = USERNAME;
         this.TOKEN = TOKEN;
         this.AUTHORISED_USER = AUTHORISED_USER;
-        this.message = message;
+//        this.message = message;
         this.validator = validator;
         this.processor = processor;
     }
@@ -44,7 +44,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
+        SendMessage message = new SendMessage();
         if (!(validator.validate(update.getMessage().getChatId().toString(), AUTHORISED_USER))) {
             message.setText("You are not authorised to use this bot.");
 
