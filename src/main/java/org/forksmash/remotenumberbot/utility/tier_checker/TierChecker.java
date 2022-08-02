@@ -1,10 +1,13 @@
 package org.forksmash.remotenumberbot.utility.tier_checker;
 
+import org.checkerframework.checker.units.qual.C;
+import org.springframework.stereotype.Component;
+
+@Component
 public class TierChecker {
     private final char[] tiers = {'D', 'C', 'B', 'A', 'R'};
     private int generatedNumber;
-
-    public TierChecker(int generatedNumber) {
+    public void setGeneratedNumber(int generatedNumber) {
         this.generatedNumber = generatedNumber;
     }
 

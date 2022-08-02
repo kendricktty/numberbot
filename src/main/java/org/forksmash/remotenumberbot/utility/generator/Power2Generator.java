@@ -1,9 +1,13 @@
 package org.forksmash.remotenumberbot.utility.generator;
 
-public class Power2Generator extends Generator {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Power2Generator implements Generator {
+
     @Override
     public int generate(int input) {
-        int result = 128 * (int) Math.pow(2, input);
-        return result;
+        return 128 * (int) Math.pow(2, input);
     }
 }

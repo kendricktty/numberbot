@@ -1,8 +1,11 @@
 package org.forksmash.remotenumberbot.utility.generator;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
-public class RandomNumberGenerator extends Generator {
+@Component
+public class RandomNumberGenerator implements Generator {
     @Override
     public int generate(int pow) {
         Random random = new Random();

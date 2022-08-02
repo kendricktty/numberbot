@@ -1,5 +1,8 @@
 package org.forksmash.remotenumberbot.utility.menu;
 
-public abstract class Menu {
-    public abstract String getMenuText();
+import org.springframework.stereotype.Component;
+
+@Component
+public interface Menu {
+    public String getMenuText();
 }
