@@ -6,7 +6,6 @@ import org.forksmash.remotenumberbot.utility.generator.RandomNumberGenerator;
 import org.forksmash.remotenumberbot.utility.generator.Power2Generator;
 import org.forksmash.remotenumberbot.utility.menu.HelpMenu;
 import org.forksmash.remotenumberbot.utility.menu.StartMenu;
-import org.forksmash.remotenumberbot.utility.tier_checker.TierChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,15 +16,13 @@ public class DefaultMessageProcessor {
     private final StartMenu startMenu;
     private final RandomNumberGenerator randomNumberGenerator;
     private final Power2Generator power2Generator;
-    private final TierChecker tierChecker;
 
     @Autowired
-    public DefaultMessageProcessor(HelpMenu helpMenu, StartMenu startMenu, RandomNumberGenerator randomNumberGenerator, Power2Generator power2Generator, TierChecker tierChecker) {
+    public DefaultMessageProcessor(HelpMenu helpMenu, StartMenu startMenu, RandomNumberGenerator randomNumberGenerator, Power2Generator power2Generator) {
         this.helpMenu = helpMenu;
         this.startMenu = startMenu;
         this.randomNumberGenerator = randomNumberGenerator;
         this.power2Generator = power2Generator;
-        this.tierChecker = tierChecker;
     }
 
     public String processMessage(String inboundMessage) {
@@ -44,37 +41,51 @@ public class DefaultMessageProcessor {
                 generator = power2Generator;
             }
 
-            int numToProcess = sanitiseInput(inboundMessage);
+            int numToProcess = parseInteger(inboundMessage);
             int generatedNum = generator.generate(numToProcess);
-
-            return tierChecker.successMessage(generatedNum);
+            
+            return "The number returned is " + generatedNum + ".\n";
         } catch (InvalidInputException e) {
-            defaultMessage += e.getMessage() + "\n\n";
+            return defaultMessage += e.getMessage() + "\n\n";
         }
-        return defaultMessage + "Please enter a valid command.";
     }
 
-    public int sanitiseInput(String input) throws InvalidInputException {
+    private int parseInteger(String input) throws InvalidInputException {
         String[] inputList = input.split(" ");
         if (inputList.length != 2) {
-            throw new InvalidInputException("Invalid input. Enter /r or /p, followed by a space, and then a number.");
+            return -1;
         }
-        System.out.println(inputList[1]);
-        try {
-            return Integer.parseInt(inputList[1]);
-        } catch (Exception e) {
-            throw new InvalidInputException("Invalid input. Enter /r or /p, followed by a space, and then a number.");
+        String[] withPlusOrMinus = null;
+        
+        boolean containsPlus = containsPlus(input);
+        boolean containsMinus = containsMinus(input);
+        if (containsPlus(input)) {
+            withPlusOrMinus = inputList[1].split("+");
+        } else {
+            withPlusOrMinus = inputList[1].split("-");
         }
+        int integerToReturn = Integer.parseInt(withPlusOrMinus[0]);
+
+        boolean isZero = !containsMinus && !containsPlus;
+        return integerToReturn + addOrSubtract(integerToReturn, isZero, containsPlus);
     }
 
-    public int addOrSubtract(int generatedNumber, String inputString) {
-        boolean isZero = inputString.contains("+") || inputString.contains("-");
-        boolean isPlus = inputString.contains("+");
+    private boolean containsPlus(String inputString) {
+        return inputString.contains("+");
+    }
 
+    private boolean containsMinus(String inputString) {
+        return inputString.contains("-");
+    }
+
+    private int addOrSubtract(int input, boolean isZero, boolean isPlus) {
         if (isZero) {
             return 0;
         }
-        String numberToAddOrSubtract = isPlus ? inputString.substring(inputString.indexOf('+')) : inputString.substring(inputString.indexOf('-'));
-        return Integer.parseInt(numberToAddOrSubtract);
+        int processedInt = input;
+        if (!isPlus) {
+            processedInt *= -1;
+        }
+        return processedInt;
     }
 }
