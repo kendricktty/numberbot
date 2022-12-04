@@ -28,8 +28,8 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     @Autowired
     public RemoteNumberBot(
             MessageProcessor processor, StartMessage startMessage, HelpMessage helpMessage) {
-        this.USERNAME = System.getenv("BOT_USERNAME");
-        this.TOKEN = System.getenv("BOT_TOKEN");
+        this.USERNAME = System.getenv("${BOT_USERNAME}");
+        this.TOKEN = System.getenv("${BOT_TOKEN}");
         this.processor = processor;
         this.startMessage = startMessage;
         this.helpMessage = helpMessage;
