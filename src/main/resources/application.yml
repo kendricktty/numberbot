@@ -1,5 +1,5 @@
 bot:
-    USERNAME: ${USER}
-    TOKEN: ${TOKEN}
+    USERNAME: ${REMOTE_NUMBERBOT_USER}
+    TOKEN: ${REMOTE_NUMBERBOT_TOKEN}
 server:
     port: ${PORT:8080}
