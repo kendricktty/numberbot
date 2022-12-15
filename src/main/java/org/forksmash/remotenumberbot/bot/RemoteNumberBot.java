@@ -8,6 +8,7 @@ import org.forksmash.remotenumberbot.utility.processor.MessageProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -25,10 +26,10 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     private HelpMessage helpMessage;
 
     @Autowired
-    public RemoteNumberBot(
+    public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN,
             MessageProcessor processor, StartMessage startMessage, HelpMessage helpMessage) {
-        this.USERNAME = System.getenv("BOT_USERNAME");
-        this.TOKEN = System.getenv("BOT_TOKEN");
+        this.USERNAME = USERNAME;
+        this.TOKEN = TOKEN;
         this.processor = processor;
         this.startMessage = startMessage;
         this.helpMessage = helpMessage;

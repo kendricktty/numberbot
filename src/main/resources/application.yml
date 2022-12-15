@@ -1,0 +1,3 @@
+bot:
+  USERNAME: ${USER}
+  TOKEN: ${TOKEN}
