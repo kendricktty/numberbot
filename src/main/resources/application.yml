@@ -1,0 +1,5 @@
+bot:
+    USERNAME: ${USER}
+    TOKEN: ${TOKEN}
+server:
+    port: ${PORT:8080}
