@@ -1,4 +1,0 @@
-bot:
-  USERNAME: ${USER}
-  TOKEN: ${TOKEN}
-runtime: java17
