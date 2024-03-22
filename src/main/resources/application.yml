@@ -1,5 +1,5 @@
 bot:
     USERNAME: ${REMOTE_NUMBERBOT_USER}
     TOKEN: ${REMOTE_NUMBERBOT_TOKEN}
-server:
-    PORT: 5000
+# server:
+#     PORT: 1028

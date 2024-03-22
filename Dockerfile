@@ -14,8 +14,5 @@ COPY remote-numberbot-0.0.1-SNAPSHOT.jar /app.jar
 # Set the working directory inside the Docker image
 WORKDIR /
 
-# Expose the port that your Spring Boot application listens on
-EXPOSE 8080
-
 # Specify the command to run your Spring Boot application
 CMD ["java", "-jar", "app.jar"]

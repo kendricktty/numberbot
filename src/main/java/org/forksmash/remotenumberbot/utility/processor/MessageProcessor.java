@@ -2,32 +2,38 @@ package org.forksmash.remotenumberbot.utility.processor;
 
 import org.forksmash.remotenumberbot.utility.exception.InvalidInputException;
 import org.forksmash.remotenumberbot.utility.exception.ResultOverflowException;
+import org.forksmash.remotenumberbot.utility.exception.ZeroSmallerInputException;
 import org.forksmash.remotenumberbot.utility.generator.Generator;
 import org.forksmash.remotenumberbot.utility.generator.RandomNumberGenerator;
 
 import org.forksmash.remotenumberbot.utility.generator.Power2Generator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class MessageProcessor {
     private final RandomNumberGenerator randomNumberGenerator;
     private final Power2Generator power2Generator;
 
-    @Autowired
+    // @Autowired
     public MessageProcessor(RandomNumberGenerator randomNumberGenerator,
             Power2Generator power2Generator) {
         this.randomNumberGenerator = randomNumberGenerator;
         this.power2Generator = power2Generator;
     }
 
-    public String processRequest(String request) throws InvalidInputException, ResultOverflowException {
+    public String processRequest(String request) throws InvalidInputException, ResultOverflowException, ZeroSmallerInputException {
         Generator generator = null;
         if (request.startsWith("/r ")) {
+            log.info("Generate random number");
             generator = randomNumberGenerator;
         } else if (request.startsWith("/p ")) {
+            log.info("Generate power of 2");
             generator = power2Generator;
         } else {
+            log.error("Invalid input.");
             throw new InvalidInputException("Invalid input.");
         }
 
