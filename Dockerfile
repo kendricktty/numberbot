@@ -1,5 +1,5 @@
 # Use the official OpenJDK 17 image as the base image
-FROM openjdk17:alpine
+FROM maven:3.8.4-openjdk-17
 
 ARG REMOTE_NUMBERBOT_USER
 ARG REMOTE_NUMBERBOT_TOKEN
