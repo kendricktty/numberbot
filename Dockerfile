@@ -1,5 +1,5 @@
 # Use the official OpenJDK 17 image as the base image
-FROM adoptopenjdk/openjdk17:alpine-slim
+FROM openjdk17:alpine
 
 ARG REMOTE_NUMBERBOT_USER
 ARG REMOTE_NUMBERBOT_TOKEN
