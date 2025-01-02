@@ -1,15 +1,8 @@
 # Use the official OpenJDK 17 image as the base image
-FROM maven:3.8.4-openjdk-17
-
-ARG REMOTE_NUMBERBOT_USER
-ARG REMOTE_NUMBERBOT_TOKEN
-
-# Set environment variables
-ENV REMOTE_NUMBERBOT_USER=$REMOTE_NUMBERBOT_USER
-ENV REMOTE_NUMBERBOT_TOKEN=$REMOTE_NUMBERBOT_TOKEN
+FROM openjdk:17-jdk-slim
 
 # Copy your Spring Boot application JAR file into the Docker image
-COPY remote-numberbot-0.0.1-SNAPSHOT.jar /app.jar
+COPY target/remote-numberbot-0.0.1-SNAPSHOT.jar /app.jar
 
 # Set the working directory inside the Docker image
 WORKDIR /
