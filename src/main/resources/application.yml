@@ -1,5 +1,6 @@
+spring:
+    config:
+        import: optional:file:.env[.properties]
 bot:
-    USERNAME: ${REMOTE_NUMBERBOT_USER}
-    TOKEN: ${REMOTE_NUMBERBOT_TOKEN}
-# server:
-#     PORT: 1028
+    USERNAME: ${USER}
+    TOKEN: ${TOKEN}

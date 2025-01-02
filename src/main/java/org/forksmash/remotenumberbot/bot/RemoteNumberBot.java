@@ -1,8 +1,14 @@
 package org.forksmash.remotenumberbot.bot;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.forksmash.remotenumberbot.utility.exception.BotException;
 import org.forksmash.remotenumberbot.utility.exception.InvalidInputException;
 import org.forksmash.remotenumberbot.utility.exception.ResultOverflowException;
 import org.forksmash.remotenumberbot.utility.exception.ZeroSmallerInputException;
+import org.forksmash.remotenumberbot.utility.message.DefaultMessage;
 import org.forksmash.remotenumberbot.utility.message.HelpMessage;
 import org.forksmash.remotenumberbot.utility.message.StartMessage;
 import org.forksmash.remotenumberbot.utility.processor.MessageProcessor;
@@ -12,6 +18,11 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,17 +35,42 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     private final MessageProcessor processor;
     private StartMessage startMessage;
     private HelpMessage helpMessage;
+    private DefaultMessage defaultMessage;
 
     // @Autowired
     public RemoteNumberBot(@Value("${bot.USERNAME}") String USERNAME, @Value("${bot.TOKEN}") String TOKEN,
-            MessageProcessor processor, StartMessage startMessage, HelpMessage helpMessage) {
+            MessageProcessor processor, StartMessage startMessage, HelpMessage helpMessage, DefaultMessage defaultMessage) {
         this.USERNAME = USERNAME;
         this.TOKEN = TOKEN;
         this.processor = processor;
-        this.startMessage = startMessage;
         this.helpMessage = helpMessage;
+        this.startMessage = startMessage;
+        this.defaultMessage = defaultMessage;
+        startMessage.setHelpMessage(helpMessage);
+        setBotCommands();
         log.info("Welcome to the NumberBot");
-        log.info("Use this bot to generate random numbers or powers of 2.");
+        log.info("This bot generates random numbers or powers of 2.");
+    }
+
+    private void setBotCommands() {
+        log.info("Setting bot commands");
+        List<BotCommand> commandsList = new LinkedList<>();
+        Map<String, String> commandsMap = helpMessage.getCommands();
+        for (String command : commandsMap.keySet()) {
+            String commandDescription = commandsMap.get(command);
+            log.debug(command + ": " + commandDescription);
+            commandsList.add(new BotCommand(command, commandDescription));
+        }
+
+        SetMyCommands setMyCommands = new SetMyCommands();
+        setMyCommands.setCommands(commandsList);
+        try {
+            execute(setMyCommands);
+        } catch (TelegramApiException e) {
+            // System.out.println(e.getMessage());
+            handleAPIException(e);
+        }
+        log.info("Commands set");
     }
 
     @Override
@@ -58,7 +94,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
 
     private String generateDefaultErrorMessages(String errorMessage) {
         log.info("Generating error message");
-        return errorMessage + "\n\n" + "Type /start for a list of valid commands.";
+        return errorMessage + "\n\n" + defaultMessage.getMessageText();
     }
 
     @Override
@@ -73,16 +109,12 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
             } else {
                 throw new InvalidInputException("Invalid input.");
             }
-        } catch (InvalidInputException e) {
-            messageText = generateDefaultErrorMessages(e.getMessage());
-        } catch (ResultOverflowException e) {
-            log.error(e.getMessage());
-            messageText = generateDefaultErrorMessages(e.getMessage());
-        } catch (ZeroSmallerInputException e) {
+        } catch (BotException e) {
             log.error(e.getMessage());
             messageText = generateDefaultErrorMessages(e.getMessage());
         } catch (Exception e) {
             log.error(e.getMessage());
+            log.debug(e.getStackTrace().toString());
             messageText = generateDefaultErrorMessages("An error occured.");
         } finally {
             message.setText(messageText);
@@ -96,8 +128,12 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
             log.info("Message sent.");
         } catch (TelegramApiException e) {
             // System.out.println(e.getMessage());
-            log.error("Caught a Telegram API excpetion");
-            log.error(e.getMessage());
+            handleAPIException(e);
         }
+    }
+
+    private void handleAPIException(TelegramApiException e) {
+        log.error("Caught a Telegram API excpetion");
+        log.error(e.getMessage());
     }
 }

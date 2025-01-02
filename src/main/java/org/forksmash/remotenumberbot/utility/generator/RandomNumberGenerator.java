@@ -1,5 +1,8 @@
 package org.forksmash.remotenumberbot.utility.generator;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import org.forksmash.remotenumberbot.utility.exception.ResultOverflowException;
@@ -31,15 +34,33 @@ public class RandomNumberGenerator implements Generator {
         }
 
         // Generate the remaining digits
+        int lastDigit = firstDigit;
         for (int i = numOfDigits - 2; i >= 0; i--) {
             random = new Random();
-            int randomNumber = random.nextInt(10);
-            result += ((int) Math.pow(10, i) * randomNumber);
+            int nextDigit;
+            do {
+                nextDigit = random.nextInt(10);
+            } while (nextDigit == lastDigit);
+            lastDigit = nextDigit;
+            result += ((int) Math.pow(10, i) * nextDigit);
         }
 
         if (result < 0) {
             throw new ResultOverflowException();
         }
         return result;
+    }
+
+    private int uniqueNumber(int numOfDigits) {
+        List<Integer> digits = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            digits.add(i);
+        }
+        Collections.shuffle(digits);
+        int number = 0;
+        for (int i = 0; i < numOfDigits; i++) {
+            number = number * 10 + digits.get(i);
+        }
+        return number;
     }
 }

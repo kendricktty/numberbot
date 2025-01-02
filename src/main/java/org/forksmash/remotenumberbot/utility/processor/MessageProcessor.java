@@ -25,6 +25,11 @@ public class MessageProcessor {
     }
 
     public String processRequest(String request) throws InvalidInputException, ResultOverflowException, ZeroSmallerInputException {
+        if (request.length() < 3) {
+            log.error("Request incomplete");
+            throw new InvalidInputException("Request incomplete. Type /r or /p, followed by a space, and then a number.");
+        }
+        
         Generator generator = null;
         if (request.startsWith("/r ")) {
             log.info("Generate random number");
