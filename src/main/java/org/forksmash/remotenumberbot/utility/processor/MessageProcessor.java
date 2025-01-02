@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MessageProcessor {
     private final RandomNumberGenerator randomNumberGenerator;
     private final Power2Generator power2Generator;
+    private final String invalidInputMessage = "Invalid input. Enter /r or /p, followed by a space, and then a number.";
 
     // @Autowired
     public MessageProcessor(RandomNumberGenerator randomNumberGenerator,
@@ -30,16 +31,19 @@ public class MessageProcessor {
             throw new InvalidInputException("Request incomplete. Type /r or /p, followed by a space, and then a number.");
         }
         
-        Generator generator = null;
+        Generator generator;
+        StringBuilder cordialResponseBuilder = new StringBuilder();
         if (request.startsWith("/r ")) {
             log.info("Generate random number");
             generator = randomNumberGenerator;
+            cordialResponseBuilder.append("Here's your generated random number!\n\n");
         } else if (request.startsWith("/p ")) {
             log.info("Generate power of 2");
             generator = power2Generator;
+            cordialResponseBuilder.append("Here's your power of 2!\n\n");
         } else {
             log.error("Invalid input.");
-            throw new InvalidInputException("Invalid input.");
+            throw new InvalidInputException(invalidInputMessage);
         }
 
         int[] numbersToProcess = getNumbersFromInputString(request);
@@ -48,7 +52,8 @@ public class MessageProcessor {
         long generatedNum = generator.generate(generatorInput);
         generatedNum += offset;
 
-        return "The number returned is " + generatedNum + ".\n";
+        cordialResponseBuilder.append("The number returned is <b>" + generatedNum + "</b>.\n");
+        return cordialResponseBuilder.toString();
     }
 
     private int[] getNumbersFromInputString(String inputString) throws InvalidInputException {
@@ -56,7 +61,7 @@ public class MessageProcessor {
 
         String[] inputList = inputString.split(" ");
         if (inputList.length != 2) {
-            throw new InvalidInputException("Invalid input. Enter /r or /p, followed by a space, and then a number.");
+            throw new InvalidInputException(invalidInputMessage);
         }
         String[] withPlusOrMinus = null;
 
@@ -80,7 +85,11 @@ public class MessageProcessor {
     }
 
     private int parseInteger(String input) throws InvalidInputException {
-        return Integer.parseInt(input);
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Input was not a number.");
+        }
     }
 
     private boolean containsPlus(String inputString) {

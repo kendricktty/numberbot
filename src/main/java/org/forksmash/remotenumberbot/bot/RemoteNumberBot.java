@@ -100,6 +100,7 @@ public class RemoteNumberBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         SendMessage message = new SendMessage();
+        message.enableHtml(true);
         String messageText = null;
         try {
             if (update.hasMessage() && update.getMessage().hasText()) {
