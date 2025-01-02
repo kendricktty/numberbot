@@ -32,6 +32,7 @@ public class MessageProcessor {
         }
         
         Generator generator;
+        // StringBuilders create the string in place, saving memory and time.
         StringBuilder cordialResponseBuilder = new StringBuilder();
         if (request.startsWith("/r ")) {
             log.info("Generate random number");
