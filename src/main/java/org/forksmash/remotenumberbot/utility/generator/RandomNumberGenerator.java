@@ -1,8 +1,8 @@
 package org.forksmash.remotenumberbot.utility.generator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.Collections;
+// import java.util.List;
 import java.util.Random;
 
 import org.forksmash.remotenumberbot.utility.exception.ResultOverflowException;
@@ -16,7 +16,7 @@ public class RandomNumberGenerator implements Generator {
     public long generate(int numOfDigits) throws ResultOverflowException, ZeroSmallerInputException {
         int ceiling = 0;
         if (numOfDigits <= ceiling) {
-            throw new ZeroSmallerInputException(ceiling);
+            throw new ZeroSmallerInputException();
         }
         
         if (numOfDigits > MAX_DIGITS) {
@@ -51,16 +51,16 @@ public class RandomNumberGenerator implements Generator {
         return result;
     }
 
-    private int uniqueNumber(int numOfDigits) {
-        List<Integer> digits = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            digits.add(i);
-        }
-        Collections.shuffle(digits);
-        int number = 0;
-        for (int i = 0; i < numOfDigits; i++) {
-            number = number * 10 + digits.get(i);
-        }
-        return number;
-    }
+    // private int uniqueNumber(int numOfDigits) {
+    //     List<Integer> digits = new ArrayList<>();
+    //     for (int i = 0; i < 10; i++) {
+    //         digits.add(i);
+    //     }
+    //     Collections.shuffle(digits);
+    //     int number = 0;
+    //     for (int i = 0; i < numOfDigits; i++) {
+    //         number = number * 10 + digits.get(i);
+    //     }
+    //     return number;
+    // }
 }
