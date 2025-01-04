@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RandomNumberGenerator implements Generator {
-    private final int MAX_DIGITS = 10;
+    private final int MAX_DIGITS = 9;
     @Override
     public long generate(int numOfDigits) throws ResultOverflowException, ZeroSmallerInputException {
         int ceiling = 0;
