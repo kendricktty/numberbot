@@ -47,7 +47,7 @@ public class GeneratorTest {
             // Assert
             assertEquals(n, numDigits);
         } catch (BotException e) {
-            fail(e.getClass() + " thrown");
+            fail(e.getStackTrace().toString());
         }
     }
 
@@ -70,15 +70,20 @@ public class GeneratorTest {
         assertEquals("The number you provided is too small. Please enter a positive number (for /r) or number larger than 0 (for /p)", e.getMessage());
     }
 
-    @Test
-    public void testP2G_logMatchesPlus5() {
+    @TestFactory
+    Stream<DynamicTest> dynamicTestP2G_ValidRangeOfDigits() {
+
+        return IntStream.range(1, 10)
+                .mapToObj(i -> dynamicTest("Generate 2 ^ (5 + " + i + ") [" + (i + 5) + "]",
+                        () -> testP2G_logMatchesPlus5(i)));
+    }
+
+    private void testP2G_logMatchesPlus5(int n) {
         try {
-            for (int i = 0; i <= 20; i++) {
-                long generated = p2g.generate(i);
-                assertEquals(i, log2_minus5(generated));
-            }
+            long generated = p2g.generate(n);
+            assertEquals(n, log2_minus5(generated));
         } catch (BotException e) {
-            fail();
+            fail(e.getStackTrace().toString());
         }
     }
 
@@ -86,4 +91,7 @@ public class GeneratorTest {
     private int log2_minus5(long x) {
         return ((int) (Math.log(x) / Math.log(2))) - 5;
     }
+
+    // @Test
+    // public void 
 }
