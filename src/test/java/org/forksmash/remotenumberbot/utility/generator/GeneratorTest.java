@@ -1,19 +1,13 @@
 package org.forksmash.remotenumberbot.utility.generator;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.*;
-
 import org.forksmash.remotenumberbot.utility.exception.BotException;
-import org.forksmash.remotenumberbot.utility.exception.InvalidInputException;
 import org.forksmash.remotenumberbot.utility.exception.ResultOverflowException;
 import org.forksmash.remotenumberbot.utility.exception.ZeroSmallerInputException;
 
@@ -53,6 +47,7 @@ public class GeneratorTest {
 
     private void testRNG_OutsidePermittedRange(int n) throws BotException {
         long result = rng.generate(n);
+        System.out.println(result);
         fail("Successfully generated random number");
     }
 
@@ -92,6 +87,23 @@ public class GeneratorTest {
         return ((int) (Math.log(x) / Math.log(2))) - 5;
     }
 
-    // @Test
-    // public void 
+    private void testP2G_OutsidePermittedRange(int n) throws BotException {
+        long result = p2g.generate(n);
+        System.out.println(result);
+        fail("Successfully generated power of 2");
+    }
+
+    @Test
+    public void testP2G_BelowPermittedRange() {
+        int n = -2;
+        BotException e = assertThrows(ZeroSmallerInputException.class, () -> testP2G_OutsidePermittedRange(n));
+        assertEquals("The number you provided is too small. Please enter a positive number (for /r) or number larger than 0 (for /p)", e.getMessage());
+    }
+
+    @Test
+    public void testP2G_AbovePermittedRange() {
+        int n = 0x20; // Ints are 32 bits long
+        BotException e = assertThrows(ResultOverflowException.class, () -> testP2G_OutsidePermittedRange(n));
+        assertEquals("The number you provided is too large. Please enter a smaller number.", e.getMessage());
+    }
 }
