@@ -13,7 +13,7 @@ public class HelpMessage implements Message {
         // commands.put("/start", "Starts a new NumberBot session");
         commands.put("/help", "Prints available commands and usage");
         commands.put("/r", "Generate a random number. Append a space followed by a number m from 1 through 9 to generate a random m-digit number.");
-        commands.put("/p", "Compute a power of 2. Append a space followed by a number n to return 2^n.");
+        commands.put("/p", "Compute a power of 2. Append a space followed by a number n to return 2^(n + 5).");
     }
     
     public Map<String, String> getCommands() {
